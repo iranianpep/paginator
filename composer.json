@@ -1,13 +1,13 @@
 {
   "name": "paginator/paginator",
-  "description": "A packagist ready package to start a new PHP 7 project including Composer, PHPUnit, Travis, CodeClimate and StyleCI.",
+  "description": "Paginator",
   "homepage": "https://github.com/iranianpep/paginator",
   "license": "MIT",
   "authors": [
     { "name": "Ehsan Abbasi", "email": "ehsan.abb@gmail.com" }
   ],
   "require": {
-    "php": ">=7"
+    "php": ">=7.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^6"
