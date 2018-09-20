@@ -70,23 +70,27 @@ class Paginator
         }
     }
 
-    public function getNumberOfPages()
+    /**
+     * @return int
+     */
+    public function getNumberOfPages(): int
     {
         $totalRecords = $this->getTotalItems();
         $pageSize = $this->getPerPage();
 
+        $numberOfPages = 0;
         if ($totalRecords === 0 || $pageSize === 0) {
-            return 0;
+            return $numberOfPages;
         }
 
         if ($totalRecords < $pageSize) {
-            return 1;
+            $numberOfPages = 1;
+        } elseif ($totalRecords % $pageSize === 0) {
+            $numberOfPages = $totalRecords/$pageSize;
+        } else {
+            $numberOfPages = ceil($totalRecords/$pageSize);
         }
 
-        if ($totalRecords % $pageSize === 0) {
-            return $totalRecords/$pageSize;
-        } else {
-            return ceil($totalRecords/$pageSize);
-        }
+        return $numberOfPages;
     }
 }
