@@ -44,8 +44,14 @@ class PaginatorTest extends TestCase
         $this->assertEquals(4, $paginator->getCurrentPage());
 
         $paginator = new Paginator($totalItems, 10, 5);
-        $this->assertEquals(4, $paginator->getCurrentPage());
+        $this->assertEquals(5, $paginator->getCurrentPage());
 
+        $paginator = new Paginator($totalItems, 10, 6);
+
+        // because maximum page is 5
+        $this->assertEquals(5, $paginator->getCurrentPage());
+
+        // because minimum page is 1
         $paginator = new Paginator($totalItems, 10, 0);
         $this->assertEquals(1, $paginator->getCurrentPage());
     }
@@ -64,5 +70,11 @@ class PaginatorTest extends TestCase
 
         $paginator = new Paginator($totalItems, 51);
         $this->assertEquals(1, $paginator->getNumberOfPages());
+
+        $paginator = new Paginator(0);
+        $this->assertEquals(0, $paginator->getNumberOfPages());
+
+        $paginator = new Paginator($totalItems, 0);
+        $this->assertEquals(0, $paginator->getNumberOfPages());
     }
 }

@@ -63,8 +63,8 @@ class Paginator
         $currentPage = (int) $currentPage;
         if ($currentPage < 1) {
             $this->currentPage = 1;
-        } elseif ($currentPage >= $this->getNumberOfPages()) {
-            $this->currentPage = $this->getNumberOfPages() - 1;
+        } elseif ($currentPage > $this->getNumberOfPages()) {
+            $this->currentPage = $this->getNumberOfPages();
         } else {
             $this->currentPage = $currentPage;
         }
