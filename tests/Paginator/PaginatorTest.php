@@ -40,8 +40,11 @@ class PaginatorTest extends TestCase
         $paginator = new Paginator($totalItems);
         $this->assertEquals(1, $paginator->getCurrentPage());
 
+        $paginator = new Paginator($totalItems, 10, 4);
+        $this->assertEquals(4, $paginator->getCurrentPage());
+
         $paginator = new Paginator($totalItems, 10, 5);
-        $this->assertEquals(5, $paginator->getCurrentPage());
+        $this->assertEquals(4, $paginator->getCurrentPage());
 
         $paginator = new Paginator($totalItems, 10, 0);
         $this->assertEquals(1, $paginator->getCurrentPage());

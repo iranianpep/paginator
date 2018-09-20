@@ -61,16 +61,23 @@ class Paginator
     public function setCurrentPage($currentPage)
     {
         $currentPage = (int) $currentPage;
-
-        // TODO make sure the current page is within the range
-
-        $this->currentPage = $currentPage > 0 && $currentPage < $this->getNumberOfPages() ? $currentPage : 1;
+        if ($currentPage < 1) {
+            $this->currentPage = 1;
+        } elseif ($currentPage >= $this->getNumberOfPages()) {
+            $this->currentPage = $this->getNumberOfPages() - 1;
+        } else {
+            $this->currentPage = $currentPage;
+        }
     }
 
     public function getNumberOfPages()
     {
         $totalRecords = $this->getTotalItems();
         $pageSize = $this->getPerPage();
+
+        if ($totalRecords === 0 || $pageSize === 0) {
+            return 0;
+        }
 
         if ($totalRecords < $pageSize) {
             return 1;
