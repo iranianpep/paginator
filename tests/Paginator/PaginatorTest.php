@@ -300,4 +300,21 @@ class PaginatorTest extends TestCase
         $paginator->setCurrentPage(1);
         $this->assertEquals(false, $paginator->getPreviousPageUrl('/product/category'));
     }
+
+    public function testGetPageName()
+    {
+        $totalItems = 3;
+        $paginator = new Paginator($totalItems);
+
+        // page name is not set, so default gets returned
+        $this->assertEquals(Paginator::DEFAULT_PAGE_NAME, $paginator->getPageName());
+
+        $paginator->setPageName('p');
+        $this->assertEquals('p', $paginator->getPageName());
+
+        $paginator->setPageName('');
+
+        // page name is set to none, default gets returned
+        $this->assertEquals(Paginator::DEFAULT_PAGE_NAME, $paginator->getPageName());
+    }
 }
