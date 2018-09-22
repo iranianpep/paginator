@@ -4,9 +4,14 @@ namespace Paginator;
 
 class Paginator
 {
+    const DEFAULT_PAGE_NAME = 'page';
+    const DEFAULT_PER_PAGE = 10;
+    const DEFAULT_CURRENT_PAGE = 1;
+
     private $totalItems;
     private $perPage;
     private $currentPage;
+    private $pageName;
 
     /**
      * Paginator constructor.
@@ -15,8 +20,11 @@ class Paginator
      * @param int $perPage
      * @param int $currentPage
      */
-    public function __construct($totalItems, $perPage = 10, $currentPage = 1)
-    {
+    public function __construct(
+        $totalItems,
+        $perPage = self::DEFAULT_PER_PAGE,
+        $currentPage = self::DEFAULT_CURRENT_PAGE
+    ) {
         $this->setTotalItems($totalItems);
         $this->setPerPage($perPage);
         $this->setCurrentPage($currentPage);
@@ -164,5 +172,100 @@ class Paginator
         }
 
         return false;
+    }
+
+    /**
+     * @param $currentUrl
+     *
+     * @return bool|string
+     */
+    public function getNextPageUrl($currentUrl)
+    {
+        $nextPage = $this->getNextPage();
+
+        if (empty($nextPage)) {
+            return false;
+        }
+
+        return $this->appendQueryStringToURL($currentUrl, [$this->getPageName() => $nextPage]);
+    }
+
+    /**
+     * @param $currentUrl
+     *
+     * @return bool|string
+     */
+    public function getPreviousPageUrl($currentUrl)
+    {
+        $previousPage = $this->getPreviousPage();
+
+        if (empty($previousPage)) {
+            return false;
+        }
+
+        return $this->appendQueryStringToURL($currentUrl, [$this->getPageName() => $previousPage]);
+    }
+
+    /**
+     * @param string $url
+     * @param $query string|array
+     * @return string
+     */
+    private function appendQueryStringToURL(string $url, $query): string
+    {
+        // the query is empty, return the original url straightaway
+        if (empty($query)) {
+            return $url;
+        }
+
+        $parsedUrl = parse_url($url);
+        if (empty($parsedUrl['path'])) {
+            $url .= '/';
+        }
+
+        // if the query is array convert it to string
+        $queryString = is_array($query) ? http_build_query($query) : $query;
+
+        // check if there is already any query string in the URL
+        if (empty($parsedUrl['query'])) {
+            // remove duplications
+            parse_str($queryString, $queryStringArray);
+            $url .= '?' . http_build_query($queryStringArray);
+        } else {
+            $queryString = $parsedUrl['query'] . '&' . $queryString;
+
+            // remove duplications
+            parse_str($queryString, $queryStringArray);
+
+            // place the updated query in the original query position
+            $url = substr_replace(
+                $url,
+                http_build_query($queryStringArray),
+                strpos($url, $parsedUrl['query']),
+                strlen($parsedUrl['query'])
+            );
+        }
+
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageName(): string
+    {
+        if (empty($this->pageName)) {
+            return self::DEFAULT_PAGE_NAME;
+        }
+
+        return $this->pageName;
+    }
+
+    /**
+     * @param string $pageName
+     */
+    public function setPageName(string $pageName): void
+    {
+        $this->pageName = $pageName;
     }
 }
