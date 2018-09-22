@@ -259,6 +259,9 @@ class PaginatorTest extends TestCase
             $paginator->getNextPageUrl('https://example.com/product/category?page=1&sortby=date&sortdir=asc')
         );
 
+        $paginator->setPageName('p');
+        $this->assertEquals('/product/category?p=3', $paginator->getNextPageUrl('/product/category'));
+
         $paginator->setCurrentPage(3);
         $this->assertEquals(false, $paginator->getNextPageUrl('/product/category'));
     }
@@ -290,6 +293,9 @@ class PaginatorTest extends TestCase
             'https://example.com/product/category?page=1&sortby=date&sortdir=asc',
             $paginator->getPreviousPageUrl('https://example.com/product/category?page=3&sortby=date&sortdir=asc')
         );
+
+        $paginator->setPageName('p');
+        $this->assertEquals('/product/category?p=1', $paginator->getPreviousPageUrl('/product/category'));
 
         $paginator->setCurrentPage(1);
         $this->assertEquals(false, $paginator->getPreviousPageUrl('/product/category'));

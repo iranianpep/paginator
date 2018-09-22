@@ -211,7 +211,7 @@ class Paginator
      * @param $query string|array
      * @return string
      */
-    private function appendQueryStringToURL(string $url, $query): string
+    private function appendQueryStringToURL(string $url, array $query): string
     {
         // the query is empty, return the original url straightaway
         if (empty($query)) {
@@ -223,8 +223,7 @@ class Paginator
             $url .= '/';
         }
 
-        // if the query is array convert it to string
-        $queryString = is_array($query) ? http_build_query($query) : $query;
+        $queryString = http_build_query($query);
 
         // check if there is already any query string in the URL
         if (empty($parsedUrl['query'])) {
