@@ -8,6 +8,13 @@ class Paginator
     private $perPage;
     private $currentPage;
 
+    /**
+     * Paginator constructor.
+     *
+     * @param     $totalItems
+     * @param int $perPage
+     * @param int $currentPage
+     */
     public function __construct($totalItems, $perPage = 10, $currentPage = 1)
     {
         $this->setTotalItems($totalItems);
@@ -29,6 +36,9 @@ class Paginator
     public function setTotalItems($totalItems)
     {
         $this->totalItems = (int) $totalItems;
+
+        // after changing totalItems, the current page is changed
+        $this->setCurrentPage($this->getCurrentPage());
     }
 
     /**
@@ -45,6 +55,9 @@ class Paginator
     public function setPerPage($perPage)
     {
         $this->perPage = (int) $perPage;
+
+        // after changing perPage, the current page is changed
+        $this->setCurrentPage($this->getCurrentPage());
     }
 
     /**
@@ -71,6 +84,30 @@ class Paginator
     }
 
     /**
+     * @return bool|int
+     */
+    public function getNextPage()
+    {
+        if ($this->isLastPage() === true) {
+            return false;
+        }
+
+        return $this->getCurrentPage() + 1;
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function getPreviousPage()
+    {
+        if ($this->isFirstPage() === true) {
+            return false;
+        }
+
+        return $this->getCurrentPage() - 1;
+    }
+
+    /**
      * @return int
      */
     public function getNumberOfPages(): int
@@ -78,9 +115,8 @@ class Paginator
         $totalRecords = $this->getTotalItems();
         $pageSize = $this->getPerPage();
 
-        $numberOfPages = 0;
         if ($totalRecords === 0 || $pageSize === 0) {
-            return $numberOfPages;
+            return 0;
         }
 
         if ($totalRecords < $pageSize) {
@@ -92,5 +128,41 @@ class Paginator
         }
 
         return $numberOfPages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPages(): bool
+    {
+        if ($this->getNumberOfPages() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFirstPage(): bool
+    {
+        if ($this->getCurrentPage() === 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLastPage(): bool
+    {
+        if ($this->getCurrentPage() === $this->getNumberOfPages()) {
+            return true;
+        }
+
+        return false;
     }
 }
