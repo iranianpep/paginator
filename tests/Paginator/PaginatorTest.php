@@ -238,6 +238,8 @@ class PaginatorTest extends TestCase
 
         $this->assertEquals('/product/category?page=2', $paginator->getNextPageUrl('/product/category'));
 
+        $this->assertEquals('/?page=2', $paginator->getNextPageUrl(''));
+
         $paginator->setCurrentPage(2);
         $this->assertEquals('/product/category?page=3', $paginator->getNextPageUrl('/product/category'));
 

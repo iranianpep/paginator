@@ -213,11 +213,6 @@ class Paginator
      */
     private function appendQueryStringToURL(string $url, array $query): string
     {
-        // the query is empty, return the original url straightaway
-        if (empty($query)) {
-            return $url;
-        }
-
         $parsedUrl = parse_url($url);
         if (empty($parsedUrl['path'])) {
             $url .= '/';
