@@ -61,9 +61,9 @@ class Page
     /**
      * @return bool
      */
-    public function isFirst()
+    public function isFirst(): bool
     {
-        return $this->isFirst;
+        return (bool) $this->isFirst;
     }
 
     /**
@@ -79,7 +79,7 @@ class Page
      */
     public function isLast(): bool
     {
-        return $this->isLast;
+        return (bool) $this->isLast;
     }
 
     /**
@@ -95,7 +95,7 @@ class Page
      */
     public function isHidden(): bool
     {
-        return $this->isHidden;
+        return (bool) $this->isHidden;
     }
 
     /**
