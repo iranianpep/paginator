@@ -198,11 +198,10 @@ class Paginator extends AbstractPaginator
             );
         }
 
+        $page->setIsHidden(false);
         $onSides = $this->getOnEachSide();
         if ($number > $onSides && $number <= $this->getNumberOfPages() - $onSides) {
             $page->setIsHidden(true);
-        } else {
-            $page->setIsHidden(false);
         }
 
         return $page;

@@ -90,11 +90,12 @@ abstract class AbstractPaginator implements PaginatorInterface
      */
     private function updateCurrentPage(): void
     {
+        $pageNumber = 1;
         if ($this->getCurrentPage() instanceof Page) {
-            $this->setCurrentPage($this->getCurrentPage()->getNumber());
-        } else {
-            $this->setCurrentPage(1);
+            $pageNumber = $this->getCurrentPage()->getNumber();
         }
+
+        $this->setCurrentPage($pageNumber);
     }
 
     /**
