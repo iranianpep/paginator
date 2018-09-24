@@ -8,23 +8,24 @@ class Paginator extends AbstractPaginator
     const DEFAULT_ON_EACH_SIDE = 3;
 
     /**
-     * @var string $pageName
+     * @var string
      */
     private $pageName;
 
     /**
-     * @var string $url
+     * @var string
      */
     private $url;
 
     /**
-     * @var int $onEachSide
+     * @var int
      */
     private $onEachSide;
 
     /**
-     * @return bool|Page
      * @throws PaginatorException
+     *
+     * @return bool|Page
      */
     public function getNextPage()
     {
@@ -36,8 +37,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return bool|Page
      * @throws PaginatorException
+     *
+     * @return bool|Page
      */
     public function getPreviousPage()
     {
@@ -77,8 +79,9 @@ class Paginator extends AbstractPaginator
     /**
      * @param $currentUrl
      *
-     * @return bool|string
      * @throws PaginatorException
+     *
+     * @return bool|string
      */
     public function getNextPageUrl($currentUrl)
     {
@@ -94,8 +97,9 @@ class Paginator extends AbstractPaginator
     /**
      * @param $currentUrl
      *
-     * @return bool|string
      * @throws PaginatorException
+     *
+     * @return bool|string
      */
     public function getPreviousPageUrl($currentUrl)
     {
@@ -111,6 +115,7 @@ class Paginator extends AbstractPaginator
     /**
      * @param string $url
      * @param $query string|array
+     *
      * @return string
      */
     private function appendQueryStringToURL(string $url, array $query): string
@@ -127,9 +132,9 @@ class Paginator extends AbstractPaginator
         if (empty($parsedUrl[$queryKey])) {
             // remove duplications
             parse_str($queryString, $queryStringArray);
-            $url .= '?' . http_build_query($queryStringArray);
+            $url .= '?'.http_build_query($queryStringArray);
         } else {
-            $queryString = $parsedUrl[$queryKey] . '&' . $queryString;
+            $queryString = $parsedUrl[$queryKey].'&'.$queryString;
 
             // remove duplications
             parse_str($queryString, $queryStringArray);
@@ -167,8 +172,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return array
      * @throws PaginatorException
+     *
+     * @return array
      */
     public function getPages()
     {
@@ -183,8 +189,9 @@ class Paginator extends AbstractPaginator
     /**
      * @param $number
      *
-     * @return Page
      * @throws PaginatorException
+     *
+     * @return Page
      */
     protected function createPageObject($number)
     {
