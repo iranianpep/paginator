@@ -7,17 +7,17 @@ abstract class AbstractPaginator implements PaginatorInterface
     const DEFAULT_PER_PAGE = 10;
 
     /**
-     * @var int $totalItems
+     * @var int
      */
     private $totalItems;
 
     /**
-     * @var int $perPage
+     * @var int
      */
     private $perPage;
 
     /**
-     * @var Page $currentPage
+     * @var Page
      */
     private $currentPage;
 
@@ -140,9 +140,9 @@ abstract class AbstractPaginator implements PaginatorInterface
         if ($totalRecords < $pageSize) {
             $numberOfPages = 1;
         } elseif ($totalRecords % $pageSize === 0) {
-            $numberOfPages = $totalRecords/$pageSize;
+            $numberOfPages = $totalRecords / $pageSize;
         } else {
-            $numberOfPages = ceil($totalRecords/$pageSize);
+            $numberOfPages = ceil($totalRecords / $pageSize);
         }
 
         return $numberOfPages;
