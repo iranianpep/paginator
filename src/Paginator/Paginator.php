@@ -2,123 +2,25 @@
 
 namespace Paginator;
 
-class Paginator
+class Paginator extends AbstractPaginator
 {
     const DEFAULT_PAGE_NAME = 'page';
-    const DEFAULT_PER_PAGE = 10;
     const DEFAULT_ON_EACH_SIDE = 3;
 
-    private $totalItems;
-    private $perPage;
+    /**
+     * @var string $pageName
+     */
     private $pageName;
+
+    /**
+     * @var string $url
+     */
     private $url;
+
+    /**
+     * @var int $onEachSide
+     */
     private $onEachSide;
-
-    /**
-     * @var Page $currentPage
-     */
-    private $currentPage;
-
-    /**
-     * Paginator constructor.
-     *
-     * @param     $totalItems
-     * @param int $perPage
-     * @param int $currentPageNumber
-     *
-     * @throws PaginatorException
-     */
-    public function __construct(
-        $totalItems,
-        $perPage = self::DEFAULT_PER_PAGE,
-        $currentPageNumber = 1
-    ) {
-        $this->totalItems = (int) $totalItems;
-        $this->perPage = (int) $perPage;
-
-        $this->setCurrentPage($currentPageNumber);
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalItems(): int
-    {
-        return $this->totalItems;
-    }
-
-    /**
-     * @param $totalItems
-     *
-     * @throws PaginatorException
-     */
-    public function setTotalItems($totalItems)
-    {
-        $this->totalItems = (int) $totalItems;
-
-        // after changing totalItems, the current page is changed
-        $this->updateCurrentPage();
-    }
-
-    /**
-     * @return int
-     */
-    public function getPerPage(): int
-    {
-        return $this->perPage;
-    }
-
-    /**
-     * @param $perPage
-     *
-     * @throws PaginatorException
-     */
-    public function setPerPage($perPage)
-    {
-        $this->perPage = (int) $perPage;
-
-        // after changing perPage, the current page is changed
-        $this->updateCurrentPage();
-    }
-
-    /**
-     * @throws PaginatorException
-     */
-    private function updateCurrentPage()
-    {
-        if ($this->getCurrentPage() instanceof Page) {
-            $this->setCurrentPage($this->getCurrentPage()->getNumber());
-        } else {
-            $this->setCurrentPage(1);
-        }
-    }
-
-    /**
-     * @return Page
-     */
-    public function getCurrentPage()
-    {
-        return $this->currentPage;
-    }
-
-    /**
-     * @param $pageNumber
-     *
-     * @throws PaginatorException
-     */
-    public function setCurrentPage($pageNumber)
-    {
-        $pageNumber = (int) $pageNumber;
-        if ($this->getNumberOfPages() > 0 &&
-            $this->getPerPage() > 0 &&
-            $pageNumber > 0 &&
-            $pageNumber <= $this->getNumberOfPages()
-        ) {
-            $this->currentPage = $this->createPageObject($pageNumber);
-        } else {
-            $this->currentPage = false;
-        }
-    }
 
     /**
      * @return bool|Page
@@ -144,41 +46,6 @@ class Paginator
         }
 
         return $this->createPageObject($this->getCurrentPage()->getNumber() - 1);
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumberOfPages(): int
-    {
-        $totalRecords = $this->getTotalItems();
-        $pageSize = $this->getPerPage();
-
-        if ($totalRecords === 0 || $pageSize === 0) {
-            return 0;
-        }
-
-        if ($totalRecords < $pageSize) {
-            $numberOfPages = 1;
-        } elseif ($totalRecords % $pageSize === 0) {
-            $numberOfPages = $totalRecords/$pageSize;
-        } else {
-            $numberOfPages = ceil($totalRecords/$pageSize);
-        }
-
-        return $numberOfPages;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasPages(): bool
-    {
-        if ($this->getNumberOfPages() > 0) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -256,12 +123,13 @@ class Paginator
         $queryString = http_build_query($query);
 
         // check if there is already any query string in the URL
-        if (empty($parsedUrl['query'])) {
+        $queryKey = 'query';
+        if (empty($parsedUrl[$queryKey])) {
             // remove duplications
             parse_str($queryString, $queryStringArray);
             $url .= '?' . http_build_query($queryStringArray);
         } else {
-            $queryString = $parsedUrl['query'] . '&' . $queryString;
+            $queryString = $parsedUrl[$queryKey] . '&' . $queryString;
 
             // remove duplications
             parse_str($queryString, $queryStringArray);
@@ -270,8 +138,8 @@ class Paginator
             $url = substr_replace(
                 $url,
                 http_build_query($queryStringArray),
-                strpos($url, $parsedUrl['query']),
-                strlen($parsedUrl['query'])
+                strpos($url, $parsedUrl[$queryKey]),
+                strlen($parsedUrl[$queryKey])
             );
         }
 
@@ -318,7 +186,7 @@ class Paginator
      * @return Page
      * @throws PaginatorException
      */
-    private function createPageObject($number)
+    protected function createPageObject($number)
     {
         $page = new Page($number);
         $number === 1 ? $page->setIsFirst(true) : $page->setIsFirst(false);
@@ -359,13 +227,13 @@ class Paginator
     /**
      * @return int
      */
-    public function getOnEachSide()
+    public function getOnEachSide(): int
     {
         if (!isset($this->onEachSide)) {
             return self::DEFAULT_ON_EACH_SIDE;
         }
 
-        return $this->onEachSide;
+        return (int) $this->onEachSide;
     }
 
     /**
