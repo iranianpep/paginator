@@ -200,7 +200,6 @@ class PaginatorTest extends TestCase
         $this->assertFalse($paginator->isOnFirstPage());
         $this->assertFalse($paginator->isOnLastPage());
 
-
         // still should be on the second page
         $this->assertEquals(2, $paginator->getCurrentPage()->getNumber());
     }
