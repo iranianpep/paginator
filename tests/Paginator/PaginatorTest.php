@@ -172,4 +172,18 @@ class PaginatorTest extends TestCase
         // page name is set to none, default gets returned
         $this->assertEquals(Paginator::DEFAULT_PAGE_NAME, $paginator->getPageName());
     }
+
+    public function testCalculateDatabaseOffset()
+    {
+        $totalItems = 10;
+        $paginator = new Paginator($totalItems, 10);
+
+        $this->assertEquals(0, $paginator->calculateDatabaseOffset(1));
+        $this->assertEquals(10, $paginator->calculateDatabaseOffset(2));
+
+        $paginator->setPerPage(5);
+        $this->assertEquals(0, $paginator->calculateDatabaseOffset(0));
+        $this->assertEquals(0, $paginator->calculateDatabaseOffset(1));
+        $this->assertEquals(5, $paginator->calculateDatabaseOffset(2));
+    }
 }

@@ -234,4 +234,20 @@ class Paginator extends AbstractPaginator
     {
         $this->onEachSide = $onEachSide;
     }
+
+    /**
+     * @param $pageNumber
+     *
+     * @return int
+     */
+    public function calculateDatabaseOffset($pageNumber): int
+    {
+        $pageNumber = (int) $pageNumber;
+
+        if ($pageNumber > 0) {
+            return ($pageNumber - 1) * $this->getPerPage();
+        }
+
+        return 0;
+    }
 }

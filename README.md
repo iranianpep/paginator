@@ -9,7 +9,7 @@ Pagination Engine
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1438614849564c76ac97e4eefccee63d)](https://www.codacy.com/app/iranianpep/paginator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=iranianpep/paginator&amp;utm_campaign=Badge_Grade)
 
 ## Server Requirements
-- PHP >= 7.0.0
+- PHP >= 7.1
 
 ## Usage
 -  First install this template:
