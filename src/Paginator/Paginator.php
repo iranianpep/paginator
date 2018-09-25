@@ -132,7 +132,8 @@ class Paginator extends AbstractPaginator
         if (empty($parsedUrl[$queryKey])) {
             // remove duplications
             parse_str($queryString, $queryStringArray);
-            return $url . '?'.http_build_query($queryStringArray);
+
+            return $url.'?'.http_build_query($queryStringArray);
         }
 
         $queryString = $parsedUrl[$queryKey].'&'.$queryString;
