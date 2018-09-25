@@ -133,22 +133,21 @@ class Paginator extends AbstractPaginator
             // remove duplications
             parse_str($queryString, $queryStringArray);
             $url .= '?'.http_build_query($queryStringArray);
-        } else {
-            $queryString = $parsedUrl[$queryKey].'&'.$queryString;
-
-            // remove duplications
-            parse_str($queryString, $queryStringArray);
-
-            // place the updated query in the original query position
-            $url = substr_replace(
-                $url,
-                http_build_query($queryStringArray),
-                strpos($url, $parsedUrl[$queryKey]),
-                strlen($parsedUrl[$queryKey])
-            );
+            return $url;
         }
 
-        return $url;
+        $queryString = $parsedUrl[$queryKey].'&'.$queryString;
+
+        // remove duplications
+        parse_str($queryString, $queryStringArray);
+
+        // place the updated query in the original query position
+        return substr_replace(
+            $url,
+            http_build_query($queryStringArray),
+            strpos($url, $parsedUrl[$queryKey]),
+            strlen($parsedUrl[$queryKey])
+        );
     }
 
     /**
