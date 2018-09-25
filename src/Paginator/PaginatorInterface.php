@@ -19,4 +19,6 @@ interface PaginatorInterface
     public function getNumberOfPages(): int;
 
     public function hasPages(): bool;
+
+    public function getPages(): array;
 }

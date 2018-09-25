@@ -157,4 +157,19 @@ abstract class AbstractPaginator implements PaginatorInterface
 
         return false;
     }
+
+    /**
+     * @throws PaginatorException
+     *
+     * @return array
+     */
+    public function getPages(): array
+    {
+        $pages = [];
+        for ($i = 1; $i <= $this->getNumberOfPages(); $i++) {
+            $pages[$i] = $this->createPageObject($i);
+        }
+
+        return $pages;
+    }
 }

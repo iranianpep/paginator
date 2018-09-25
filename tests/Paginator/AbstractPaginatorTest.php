@@ -206,4 +206,60 @@ class AbstractPaginatorTest extends TestCase
         $paginator->setTotalItems(9);
         $this->assertEquals(1, $paginator->getCurrentPage()->getNumber());
     }
+
+    public function testGetPages()
+    {
+        $totalItems = 7;
+        $paginator = new Paginator($totalItems, 1);
+        $paginator->setUrl('https://www.example.com');
+
+        $pages = $paginator->getPages();
+        $this->assertEquals(7, count($pages));
+        $this->assertEquals(true, $pages[1]->isFirst());
+        $this->assertEquals(false, $pages[1]->isLast());
+        $this->assertEquals('https://www.example.com/?page=1', $pages[1]->getUrl());
+        $this->assertEquals(false, $pages[1]->isHidden());
+
+        $this->assertEquals(false, $pages[4]->isFirst());
+        $this->assertEquals(false, $pages[4]->isLast());
+        $this->assertEquals('https://www.example.com/?page=4', $pages[4]->getUrl());
+        $this->assertEquals(true, $pages[4]->isHidden());
+
+        $this->assertEquals(false, $pages[7]->isFirst());
+        $this->assertEquals(true, $pages[7]->isLast());
+        $this->assertEquals('https://www.example.com/?page=7', $pages[7]->getUrl());
+        $this->assertEquals(false, $pages[7]->isHidden());
+
+        $totalItems = 1;
+        $paginator = new Paginator($totalItems);
+
+        $pages = $paginator->getPages();
+        $this->assertEquals(1, count($pages));
+        $this->assertEquals(true, $pages[1]->isFirst());
+        $this->assertEquals(true, $pages[1]->isLast());
+        $this->assertEmpty($pages[1]->getUrl());
+        $this->assertEquals(false, $pages[1]->isHidden());
+
+        $totalItems = 3;
+        $paginator = new Paginator($totalItems);
+        $paginator->setPerPage(1);
+        $paginator->setOnEachSide(1);
+
+        $pages = $paginator->getPages();
+        $this->assertEquals(3, count($pages));
+        $this->assertEquals(true, $pages[1]->isFirst());
+        $this->assertEquals(false, $pages[1]->isLast());
+        $this->assertEmpty($pages[1]->getUrl());
+        $this->assertEquals(false, $pages[1]->isHidden());
+
+        $this->assertEquals(false, $pages[2]->isFirst());
+        $this->assertEquals(false, $pages[2]->isLast());
+        $this->assertEmpty($pages[2]->getUrl());
+        $this->assertEquals(true, $pages[2]->isHidden());
+
+        $this->assertEquals(false, $pages[3]->isFirst());
+        $this->assertEquals(true, $pages[3]->isLast());
+        $this->assertEmpty($pages[3]->getUrl());
+        $this->assertEquals(false, $pages[3]->isHidden());
+    }
 }

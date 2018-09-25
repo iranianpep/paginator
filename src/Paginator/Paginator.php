@@ -172,21 +172,6 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @throws PaginatorException
-     *
-     * @return array
-     */
-    public function getPages()
-    {
-        $pages = [];
-        for ($i = 1; $i <= $this->getNumberOfPages(); $i++) {
-            $pages[$i] = $this->createPageObject($i);
-        }
-
-        return $pages;
-    }
-
-    /**
      * @param $number
      *
      * @throws PaginatorException
