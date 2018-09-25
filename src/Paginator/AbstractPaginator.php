@@ -113,6 +113,9 @@ abstract class AbstractPaginator implements PaginatorInterface
      */
     public function setCurrentPage($pageNumber): void
     {
+        // by default set the current page to false. It might be overwritten later this function
+        $this->currentPage = false;
+
         $pageNumber = (int) $pageNumber;
         if ($this->getNumberOfPages() > 0 &&
             $this->getPerPage() > 0 &&
@@ -120,8 +123,6 @@ abstract class AbstractPaginator implements PaginatorInterface
             $pageNumber <= $this->getNumberOfPages()
         ) {
             $this->currentPage = $this->createPageObject($pageNumber);
-        } else {
-            $this->currentPage = false;
         }
     }
 
@@ -137,11 +138,8 @@ abstract class AbstractPaginator implements PaginatorInterface
             return 0;
         }
 
-        if ($totalRecords < $pageSize) {
-            $numberOfPages = 1;
-        } elseif ($totalRecords % $pageSize === 0) {
-            $numberOfPages = $totalRecords / $pageSize;
-        } else {
+        $numberOfPages = 1;
+        if ($totalRecords > $pageSize) {
             $numberOfPages = ceil($totalRecords / $pageSize);
         }
 
