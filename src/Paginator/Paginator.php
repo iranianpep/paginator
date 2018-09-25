@@ -133,6 +133,7 @@ class Paginator extends AbstractPaginator
             // remove duplications
             parse_str($queryString, $queryStringArray);
             $url .= '?'.http_build_query($queryStringArray);
+
             return $url;
         }
 
