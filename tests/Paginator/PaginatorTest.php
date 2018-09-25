@@ -88,37 +88,47 @@ class PaginatorTest extends TestCase
     {
         $totalItems = 3;
         $paginator = new Paginator($totalItems, 1);
+        $paginator->setUrl('/product/category');
 
-        $this->assertEquals('/product/category?page=2', $paginator->getNextPageUrl('/product/category'));
+        $this->assertEquals('/product/category?page=2', $paginator->getNextPageUrl());
 
-        $this->assertEquals('/?page=2', $paginator->getNextPageUrl(''));
+        $paginator->setUrl('');
+        $this->assertEquals('/?page=2', $paginator->getNextPageUrl());
 
         $paginator->setCurrentPage(2);
-        $this->assertEquals('/product/category?page=3', $paginator->getNextPageUrl('/product/category'));
+        $paginator->setUrl('/product/category');
+
+        $this->assertEquals('/product/category?page=3', $paginator->getNextPageUrl());
 
         // the old query string should be updated with the new one
-        $this->assertEquals('/product/category?page=3', $paginator->getNextPageUrl('/product/category?page=1'));
+        $paginator->setUrl('/product/category?page=1');
+        $this->assertEquals('/product/category?page=3', $paginator->getNextPageUrl());
 
+        $paginator->setUrl('/product/category?page=1&sortby=date&sortdir=asc');
         $this->assertEquals(
             '/product/category?page=3&sortby=date&sortdir=asc',
-            $paginator->getNextPageUrl('/product/category?page=1&sortby=date&sortdir=asc')
+            $paginator->getNextPageUrl()
         );
 
+        $paginator->setUrl('/product/category?sortby=date&sortdir=asc&page=1');
         $this->assertEquals(
             '/product/category?sortby=date&sortdir=asc&page=3',
-            $paginator->getNextPageUrl('/product/category?sortby=date&sortdir=asc&page=1')
+            $paginator->getNextPageUrl()
         );
 
+        $paginator->setUrl('https://example.com/product/category?page=1&sortby=date&sortdir=asc');
         $this->assertEquals(
             'https://example.com/product/category?page=3&sortby=date&sortdir=asc',
-            $paginator->getNextPageUrl('https://example.com/product/category?page=1&sortby=date&sortdir=asc')
+            $paginator->getNextPageUrl()
         );
 
         $paginator->setPageName('p');
-        $this->assertEquals('/product/category?p=3', $paginator->getNextPageUrl('/product/category'));
+        $paginator->setUrl('/product/category');
+        $this->assertEquals('/product/category?p=3', $paginator->getNextPageUrl());
 
         $paginator->setCurrentPage(3);
-        $this->assertEquals(false, $paginator->getNextPageUrl('/product/category'));
+        $paginator->setUrl('/product/category');
+        $this->assertEquals(false, $paginator->getNextPageUrl());
     }
 
     public function testGetPreviousPageUrl()
@@ -126,34 +136,42 @@ class PaginatorTest extends TestCase
         $totalItems = 3;
         $paginator = new Paginator($totalItems, 1);
 
-        $this->assertEquals(false, $paginator->getPreviousPageUrl('/product/category'));
+        $paginator->setUrl('/product/category');
+        $this->assertEquals(false, $paginator->getPreviousPageUrl());
 
         $paginator->setCurrentPage(2);
-        $this->assertEquals('/product/category?page=1', $paginator->getPreviousPageUrl('/product/category'));
+        $paginator->setUrl('/product/category');
+        $this->assertEquals('/product/category?page=1', $paginator->getPreviousPageUrl());
 
         // the old query string should be updated with the new one
-        $this->assertEquals('/product/category?page=1', $paginator->getPreviousPageUrl('/product/category?page=2'));
+        $paginator->setUrl('/product/category?page=2');
+        $this->assertEquals('/product/category?page=1', $paginator->getPreviousPageUrl());
 
+        $paginator->setUrl('/product/category?page=3&sortby=date&sortdir=asc');
         $this->assertEquals(
             '/product/category?page=1&sortby=date&sortdir=asc',
-            $paginator->getPreviousPageUrl('/product/category?page=3&sortby=date&sortdir=asc')
+            $paginator->getPreviousPageUrl()
         );
 
+        $paginator->setUrl('/product/category?sortby=date&sortdir=asc&page=3');
         $this->assertEquals(
             '/product/category?sortby=date&sortdir=asc&page=1',
-            $paginator->getPreviousPageUrl('/product/category?sortby=date&sortdir=asc&page=3')
+            $paginator->getPreviousPageUrl()
         );
 
+        $paginator->setUrl('https://example.com/product/category?page=3&sortby=date&sortdir=asc');
         $this->assertEquals(
             'https://example.com/product/category?page=1&sortby=date&sortdir=asc',
-            $paginator->getPreviousPageUrl('https://example.com/product/category?page=3&sortby=date&sortdir=asc')
+            $paginator->getPreviousPageUrl()
         );
 
+        $paginator->setUrl('/product/category');
         $paginator->setPageName('p');
-        $this->assertEquals('/product/category?p=1', $paginator->getPreviousPageUrl('/product/category'));
+        $this->assertEquals('/product/category?p=1', $paginator->getPreviousPageUrl());
 
+        $paginator->setUrl('/product/category');
         $paginator->setCurrentPage(1);
-        $this->assertEquals(false, $paginator->getPreviousPageUrl('/product/category'));
+        $this->assertEquals(false, $paginator->getPreviousPageUrl());
     }
 
     public function testGetPageName()

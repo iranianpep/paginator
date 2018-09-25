@@ -77,13 +77,10 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @param $currentUrl
-     *
-     * @throws PaginatorException
-     *
      * @return bool|string
+     * @throws PaginatorException
      */
-    public function getNextPageUrl($currentUrl)
+    public function getNextPageUrl()
     {
         $nextPage = $this->getNextPage();
 
@@ -91,17 +88,14 @@ class Paginator extends AbstractPaginator
             return false;
         }
 
-        return $this->appendQueryStringToURL($currentUrl, [$this->getPageName() => $nextPage->getNumber()]);
+        return $this->appendQueryStringToURL($this->getUrl(), [$this->getPageName() => $nextPage->getNumber()]);
     }
 
     /**
-     * @param $currentUrl
-     *
-     * @throws PaginatorException
-     *
      * @return bool|string
+     * @throws PaginatorException
      */
-    public function getPreviousPageUrl($currentUrl)
+    public function getPreviousPageUrl()
     {
         $previousPage = $this->getPreviousPage();
 
@@ -109,7 +103,7 @@ class Paginator extends AbstractPaginator
             return false;
         }
 
-        return $this->appendQueryStringToURL($currentUrl, [$this->getPageName() => $previousPage->getNumber()]);
+        return $this->appendQueryStringToURL($this->getUrl(), [$this->getPageName() => $previousPage->getNumber()]);
     }
 
     /**
