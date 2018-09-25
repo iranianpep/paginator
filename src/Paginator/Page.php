@@ -7,6 +7,7 @@ class Page
     private $number;
     private $isFirst;
     private $isLast;
+    private $isCurrent;
     private $isHidden;
     private $url;
 
@@ -88,6 +89,22 @@ class Page
     public function setIsLast($isLast): void
     {
         $this->isLast = $isLast;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCurrent()
+    {
+        return (bool) $this->isCurrent;
+    }
+
+    /**
+     * @param bool $isCurrent
+     */
+    public function setIsCurrent($isCurrent): void
+    {
+        $this->isCurrent = $isCurrent;
     }
 
     /**

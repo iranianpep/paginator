@@ -77,4 +77,19 @@ class PageTest extends TestCase
         $page->setUrl('https://example.com');
         $this->assertEquals('https://example.com', $page->getUrl());
     }
+
+    /**
+     * @throws PaginatorException
+     */
+    public function testIsCurrent()
+    {
+        $page = new Page(1);
+        $this->assertFalse($page->isCurrent());
+
+        $page->setIsCurrent(true);
+        $this->assertTrue($page->isCurrent());
+
+        $page->setIsCurrent(false);
+        $this->assertFalse($page->isCurrent());
+    }
 }

@@ -181,6 +181,8 @@ class Paginator extends AbstractPaginator
         $page = new Page($number);
         $number === 1 ? $page->setIsFirst(true) : $page->setIsFirst(false);
         $number === $this->calculateNumberOfPages() ? $page->setIsLast(true) : $page->setIsLast(false);
+        $this->getCurrentPage() instanceof Page && $number === $this->getCurrentPage()->getNumber() ?
+            $page->setIsCurrent(true) : $page->setIsCurrent(false);
 
         if (!empty($this->getUrl())) {
             $page->setUrl(
