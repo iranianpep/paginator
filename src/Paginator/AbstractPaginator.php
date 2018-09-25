@@ -79,9 +79,6 @@ abstract class AbstractPaginator implements PaginatorInterface
         $this->updateCurrentPage();
     }
 
-    /**
-     *
-     */
     private function updateCurrentPage(): void
     {
         $pageNumber = 1;
