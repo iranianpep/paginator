@@ -22,13 +22,11 @@ abstract class AbstractPaginator implements PaginatorInterface
     private $currentPage;
 
     /**
-     * Paginator constructor.
+     * AbstractPaginator constructor.
      *
      * @param     $totalItems
      * @param int $perPage
      * @param int $currentPageNumber
-     *
-     * @throws PaginatorException
      */
     public function __construct(
         $totalItems,
@@ -53,8 +51,6 @@ abstract class AbstractPaginator implements PaginatorInterface
 
     /**
      * @param $totalItems
-     *
-     * @throws PaginatorException
      */
     public function setTotalItems($totalItems): void
     {
@@ -74,8 +70,6 @@ abstract class AbstractPaginator implements PaginatorInterface
 
     /**
      * @param $perPage
-     *
-     * @throws PaginatorException
      */
     public function setPerPage($perPage): void
     {
@@ -86,7 +80,7 @@ abstract class AbstractPaginator implements PaginatorInterface
     }
 
     /**
-     * @throws PaginatorException
+     *
      */
     private function updateCurrentPage(): void
     {
@@ -108,8 +102,6 @@ abstract class AbstractPaginator implements PaginatorInterface
 
     /**
      * @param $pageNumber
-     *
-     * @throws PaginatorException
      */
     public function setCurrentPage($pageNumber): void
     {
@@ -117,10 +109,10 @@ abstract class AbstractPaginator implements PaginatorInterface
         $this->currentPage = false;
 
         $pageNumber = (int) $pageNumber;
-        if ($this->getNumberOfPages() > 0 &&
+        if ($this->calculateNumberOfPages() > 0 &&
             $this->getPerPage() > 0 &&
             $pageNumber > 0 &&
-            $pageNumber <= $this->getNumberOfPages()
+            $pageNumber <= $this->calculateNumberOfPages()
         ) {
             $this->currentPage = $this->createPageObject($pageNumber);
         }
@@ -129,7 +121,7 @@ abstract class AbstractPaginator implements PaginatorInterface
     /**
      * @return int
      */
-    public function getNumberOfPages(): int
+    public function calculateNumberOfPages(): int
     {
         $totalRecords = $this->getTotalItems();
         $pageSize = $this->getPerPage();
@@ -151,7 +143,7 @@ abstract class AbstractPaginator implements PaginatorInterface
      */
     public function hasPages(): bool
     {
-        if ($this->getNumberOfPages() > 0) {
+        if ($this->calculateNumberOfPages() > 0) {
             return true;
         }
 
@@ -159,14 +151,12 @@ abstract class AbstractPaginator implements PaginatorInterface
     }
 
     /**
-     * @throws PaginatorException
-     *
      * @return array
      */
     public function getPages(): array
     {
         $pages = [];
-        for ($i = 1; $i <= $this->getNumberOfPages(); $i++) {
+        for ($i = 1; $i <= $this->calculateNumberOfPages(); $i++) {
             $pages[$i] = $this->createPageObject($i);
         }
 

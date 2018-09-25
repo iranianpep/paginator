@@ -68,7 +68,7 @@ class Paginator extends AbstractPaginator
     public function isOnLastPage(): bool
     {
         if ($this->getCurrentPage() instanceof Page &&
-            $this->getCurrentPage()->getNumber() === $this->getNumberOfPages()
+            $this->getCurrentPage()->getNumber() === $this->calculateNumberOfPages()
         ) {
             return true;
         }
@@ -132,9 +132,7 @@ class Paginator extends AbstractPaginator
         if (empty($parsedUrl[$queryKey])) {
             // remove duplications
             parse_str($queryString, $queryStringArray);
-            $url .= '?'.http_build_query($queryStringArray);
-
-            return $url;
+            return $url . '?'.http_build_query($queryStringArray);
         }
 
         $queryString = $parsedUrl[$queryKey].'&'.$queryString;
@@ -182,7 +180,7 @@ class Paginator extends AbstractPaginator
     {
         $page = new Page($number);
         $number === 1 ? $page->setIsFirst(true) : $page->setIsFirst(false);
-        $number === $this->getNumberOfPages() ? $page->setIsLast(true) : $page->setIsLast(false);
+        $number === $this->calculateNumberOfPages() ? $page->setIsLast(true) : $page->setIsLast(false);
 
         if (!empty($this->getUrl())) {
             $page->setUrl(
@@ -192,7 +190,7 @@ class Paginator extends AbstractPaginator
 
         $page->setIsHidden(false);
         $onSides = $this->getOnEachSide();
-        if ($number > $onSides && $number <= $this->getNumberOfPages() - $onSides) {
+        if ($number > $onSides && $number <= $this->calculateNumberOfPages() - $onSides) {
             $page->setIsHidden(true);
         }
 

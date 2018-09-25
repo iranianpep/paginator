@@ -66,75 +66,75 @@ class AbstractPaginatorTest extends TestCase
     {
         $totalItems = 50;
         $paginator = new Paginator($totalItems);
-        $this->assertEquals(5, $paginator->getNumberOfPages());
+        $this->assertEquals(5, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator($totalItems, 49);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator($totalItems, 50);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator($totalItems, 51);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator(0);
-        $this->assertEquals(0, $paginator->getNumberOfPages());
+        $this->assertEquals(0, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator($totalItems, 0);
-        $this->assertEquals(0, $paginator->getNumberOfPages());
+        $this->assertEquals(0, $paginator->calculateNumberOfPages());
 
         $paginator->setPerPage(5);
-        $this->assertEquals(10, $paginator->getNumberOfPages());
+        $this->assertEquals(10, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(500);
-        $this->assertEquals(100, $paginator->getNumberOfPages());
+        $this->assertEquals(100, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(3);
         $paginator->setPerPage(3);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(4);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(5);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(6);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(7);
-        $this->assertEquals(3, $paginator->getNumberOfPages());
+        $this->assertEquals(3, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(2);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(1);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(0);
-        $this->assertEquals(0, $paginator->getNumberOfPages());
+        $this->assertEquals(0, $paginator->calculateNumberOfPages());
 
         $paginator->setTotalItems(24);
         $paginator->setPerPage(5);
-        $this->assertEquals(5, $paginator->getNumberOfPages());
+        $this->assertEquals(5, $paginator->calculateNumberOfPages());
 
         $paginator->setPerPage(23);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
 
         $paginator->setPerPage(24);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator(30, 49);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator(48, 49);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator(49, 49);
-        $this->assertEquals(1, $paginator->getNumberOfPages());
+        $this->assertEquals(1, $paginator->calculateNumberOfPages());
 
         $paginator = new Paginator(50, 49);
-        $this->assertEquals(2, $paginator->getNumberOfPages());
+        $this->assertEquals(2, $paginator->calculateNumberOfPages());
     }
 
     public function testGetCurrentPage()

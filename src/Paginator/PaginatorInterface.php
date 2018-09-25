@@ -16,7 +16,7 @@ interface PaginatorInterface
 
     public function getCurrentPage();
 
-    public function getNumberOfPages(): int;
+    public function calculateNumberOfPages(): int;
 
     public function hasPages(): bool;
 
