@@ -77,8 +77,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return bool|string
      * @throws PaginatorException
+     *
+     * @return bool|string
      */
     public function getNextPageUrl()
     {
@@ -92,8 +93,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return bool|string
      * @throws PaginatorException
+     *
+     * @return bool|string
      */
     public function getPreviousPageUrl()
     {
