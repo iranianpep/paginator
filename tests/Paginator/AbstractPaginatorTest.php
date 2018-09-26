@@ -223,7 +223,7 @@ class AbstractPaginatorTest extends TestCase
         $this->assertEquals(false, $pages[4]->isFirst());
         $this->assertEquals(false, $pages[4]->isLast());
         $this->assertEquals('https://www.example.com/?page=4', $pages[4]->getUrl());
-        $this->assertEquals(true, $pages[4]->isHidden());
+        $this->assertEquals(false, $pages[4]->isHidden());
 
         $this->assertEquals(false, $pages[7]->isFirst());
         $this->assertEquals(true, $pages[7]->isLast());
@@ -255,7 +255,7 @@ class AbstractPaginatorTest extends TestCase
         $this->assertEquals(false, $pages[2]->isFirst());
         $this->assertEquals(false, $pages[2]->isLast());
         $this->assertEmpty($pages[2]->getUrl());
-        $this->assertEquals(true, $pages[2]->isHidden());
+        $this->assertEquals(false, $pages[2]->isHidden());
 
         $this->assertEquals(false, $pages[3]->isFirst());
         $this->assertEquals(true, $pages[3]->isLast());

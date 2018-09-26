@@ -189,13 +189,69 @@ class Paginator extends AbstractPaginator
             );
         }
 
-        $page->setIsHidden(false);
-        $onSides = $this->getOnEachSide();
-        if ($number > $onSides && $number <= $this->calculateNumberOfPages() - $onSides) {
-            $page->setIsHidden(true);
-        }
+        $this->isPageWithinHiddenRange($page->getNumber()) ? $page->setIsHidden(true) : $page->setIsHidden(false);
 
         return $page;
+    }
+
+    private function isSliderCloseToBeginning()
+    {
+        if ($this->getCurrentPage() instanceof Page &&
+            $this->getCurrentPage()->getNumber() <= (2 * $this->getOnEachSide())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isSliderCloseToEnding()
+    {
+        if ($this->getCurrentPage() instanceof Page &&
+            $this->getCurrentPage()->getNumber() > ($this->calculateNumberOfPages() - (2 * $this->getOnEachSide()))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isPageWithinHiddenRange($number)
+    {
+        $hiddenRanges = $this->getHiddenRanges();
+        foreach ($hiddenRanges as $hiddenRange) {
+            if ($number > $hiddenRange['start'] && $number < $hiddenRange['finish']) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getHiddenRanges()
+    {
+        $onSides = $this->getOnEachSide();
+
+        if (!$this->getCurrentPage() instanceof Page || $this->isSliderCloseToBeginning() === true) {
+            return [
+                'start' => (2 * $onSides) + 2,
+                'finish' => $this->calculateNumberOfPages() - 2
+            ];
+        } elseif ($this->isSliderCloseToEnding() === true) {
+            return [
+                'start' => 2,
+                'finish' => $this->calculateNumberOfPages() - ((2 * $onSides) + 2)
+            ];
+        } else {
+            return [
+                [
+                    'start' => 2,
+                    'finish' => $this->getCurrentPage()->getNumber() - $onSides
+                ],
+                [
+                    'start' => $this->getCurrentPage()->getNumber() + $onSides,
+                    'finish' => $this->calculateNumberOfPages() - 2
+                ]
+            ];
+        }
     }
 
     /**
