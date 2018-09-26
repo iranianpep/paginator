@@ -29,11 +29,12 @@ class Paginator extends AbstractPaginator
      */
     public function getNextPage()
     {
-        if ($this->isOnLastPage() === true) {
+        $currentPage = $this->getCurrentPage();
+        if ($this->isOnLastPage() === true || !$currentPage instanceof Page) {
             return false;
         }
 
-        return $this->createPageObject($this->getCurrentPage()->getNumber() + 1);
+        return $this->createPageObject($currentPage->getNumber() + 1);
     }
 
     /**
@@ -43,11 +44,12 @@ class Paginator extends AbstractPaginator
      */
     public function getPreviousPage()
     {
-        if ($this->isOnFirstPage() === true) {
+        $currentPage = $this->getCurrentPage();
+        if ($this->isOnFirstPage() === true || !$currentPage instanceof Page) {
             return false;
         }
 
-        return $this->createPageObject($this->getCurrentPage()->getNumber() - 1);
+        return $this->createPageObject($currentPage->getNumber() - 1);
     }
 
     /**
