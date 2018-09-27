@@ -24,9 +24,10 @@ class Paginator extends AbstractPaginator
 
     /**
      * Paginator constructor.
+     *
      * @param $totalItems
-     * @param int $perPage
-     * @param int $currentPageNumber
+     * @param int    $perPage
+     * @param int    $currentPageNumber
      * @param string $url
      */
     public function __construct(
@@ -239,6 +240,7 @@ class Paginator extends AbstractPaginator
 
     /**
      * @param $number
+     *
      * @return bool
      */
     private function isPageWithinHiddenRange($number): bool
@@ -267,28 +269,28 @@ class Paginator extends AbstractPaginator
         if (!$this->getCurrentPage() instanceof Page || $this->isSliderCloseToBeginning() === true) {
             return [
                 [
-                    'start' => (2 * $onEachSide) + 3,
-                    'finish' => $this->calculateNumberOfPages() - 3
-                ]
+                    'start'  => (2 * $onEachSide) + 3,
+                    'finish' => $this->calculateNumberOfPages() - 3,
+                ],
             ];
         } elseif ($this->isSliderCloseToEnding() === true) {
             return [
                 [
-                    'start' => 3,
-                    'finish' => $this->calculateNumberOfPages() - ((2 * $onEachSide) + 3)
-                ]
+                    'start'  => 3,
+                    'finish' => $this->calculateNumberOfPages() - ((2 * $onEachSide) + 3),
+                ],
             ];
         }
 
         return [
             [
-                'start' => 3,
-                'finish' => $this->getCurrentPage()->getNumber() - $onEachSide
+                'start'  => 3,
+                'finish' => $this->getCurrentPage()->getNumber() - $onEachSide,
             ],
             [
-                'start' => $this->getCurrentPage()->getNumber() + $onEachSide,
-                'finish' => $this->calculateNumberOfPages() - 3
-            ]
+                'start'  => $this->getCurrentPage()->getNumber() + $onEachSide,
+                'finish' => $this->calculateNumberOfPages() - 3,
+            ],
         ];
     }
 
