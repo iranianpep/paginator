@@ -1,5 +1,5 @@
 # Paginator
-Pagination Engine
+A simple yet powerful PHP pagination engine
 
 [![Build Status](https://travis-ci.org/iranianpep/paginator.svg?branch=master)](https://travis-ci.org/iranianpep/paginator)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9f8b2dd15bf3a8f48103/maintainability)](https://codeclimate.com/github/iranianpep/paginator/maintainability)
@@ -11,7 +11,17 @@ Pagination Engine
 ## Server Requirements
 - PHP >= 7.1
 
-## Usage
--  First install this template:
+## Installation
+- Using Composer get the latest version:
 ```
 composer require paginator/paginator
+```
+
+## Example
+```
+$totalItems = 3;
+$perPage = 1;
+$currentPage = 1;
+
+
+```
