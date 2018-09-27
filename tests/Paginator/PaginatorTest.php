@@ -68,6 +68,9 @@ class PaginatorTest extends TestCase
 
         $paginator->setTotalItems(4);
         $this->assertEquals(4, $paginator->getNextPage()->getNumber());
+
+        $paginator->setCurrentPage(5);
+        $this->assertFalse($paginator->getPreviousPage());
     }
 
     public function testGetPreviousPage()
@@ -82,6 +85,9 @@ class PaginatorTest extends TestCase
 
         $paginator->setCurrentPage(2);
         $this->assertEquals(1, $paginator->getPreviousPage()->getNumber());
+
+        $paginator->setCurrentPage(5);
+        $this->assertFalse($paginator->getPreviousPage());
     }
 
     public function testGetNextPageUrl()
