@@ -22,6 +22,13 @@ class Paginator extends AbstractPaginator
      */
     private $onEachSide;
 
+    /**
+     * Paginator constructor.
+     * @param $totalItems
+     * @param int $perPage
+     * @param int $currentPageNumber
+     * @param string $url
+     */
     public function __construct(
         $totalItems,
         $perPage = self::DEFAULT_PER_PAGE,
@@ -204,7 +211,10 @@ class Paginator extends AbstractPaginator
         return $page;
     }
 
-    private function isSliderCloseToBeginning()
+    /**
+     * @return bool
+     */
+    private function isSliderCloseToBeginning(): bool
     {
         if ($this->getCurrentPage() instanceof Page &&
             $this->getCurrentPage()->getNumber() <= (2 * $this->getOnEachSide())) {
@@ -214,7 +224,10 @@ class Paginator extends AbstractPaginator
         return false;
     }
 
-    private function isSliderCloseToEnding()
+    /**
+     * @return bool
+     */
+    private function isSliderCloseToEnding(): bool
     {
         if ($this->getCurrentPage() instanceof Page &&
             $this->getCurrentPage()->getNumber() > ($this->calculateNumberOfPages() - (2 * $this->getOnEachSide()))) {
@@ -224,7 +237,11 @@ class Paginator extends AbstractPaginator
         return false;
     }
 
-    private function isPageWithinHiddenRange($number)
+    /**
+     * @param $number
+     * @return bool
+     */
+    private function isPageWithinHiddenRange($number): bool
     {
         $hiddenRanges = $this->getHiddenRanges();
         foreach ($hiddenRanges as $hiddenRange) {
@@ -236,30 +253,41 @@ class Paginator extends AbstractPaginator
         return false;
     }
 
-    public function getHiddenRanges()
+    /**
+     * @return array
+     */
+    public function getHiddenRanges(): array
     {
-        $onSides = $this->getOnEachSide();
+        $onEachSide = $this->getOnEachSide();
+
+        if ($this->calculateNumberOfPages() < ($onEachSide * 2) + 6) {
+            return [];
+        }
 
         if (!$this->getCurrentPage() instanceof Page || $this->isSliderCloseToBeginning() === true) {
             return [
-                'start' => (2 * $onSides) + 2,
-                'finish' => $this->calculateNumberOfPages() - 2
+                [
+                    'start' => (2 * $onEachSide) + 3,
+                    'finish' => $this->calculateNumberOfPages() - 3
+                ]
             ];
         } elseif ($this->isSliderCloseToEnding() === true) {
             return [
-                'start' => 2,
-                'finish' => $this->calculateNumberOfPages() - ((2 * $onSides) + 2)
+                [
+                    'start' => 3,
+                    'finish' => $this->calculateNumberOfPages() - ((2 * $onEachSide) + 3)
+                ]
             ];
         }
 
         return [
             [
-                'start' => 2,
-                'finish' => $this->getCurrentPage()->getNumber() - $onSides
+                'start' => 3,
+                'finish' => $this->getCurrentPage()->getNumber() - $onEachSide
             ],
             [
-                'start' => $this->getCurrentPage()->getNumber() + $onSides,
-                'finish' => $this->calculateNumberOfPages() - 2
+                'start' => $this->getCurrentPage()->getNumber() + $onEachSide,
+                'finish' => $this->calculateNumberOfPages() - 3
             ]
         ];
     }
