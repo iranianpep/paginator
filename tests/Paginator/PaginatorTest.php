@@ -93,8 +93,7 @@ class PaginatorTest extends TestCase
     public function testGetNextPageUrl()
     {
         $totalItems = 3;
-        $paginator = new Paginator($totalItems, 1);
-        $paginator->setUrl('/product/category');
+        $paginator = new Paginator($totalItems, 1, 1, '/product/category');
 
         $this->assertEquals('/product/category?page=2', $paginator->getNextPageUrl());
 
@@ -140,9 +139,8 @@ class PaginatorTest extends TestCase
     public function testGetPreviousPageUrl()
     {
         $totalItems = 3;
-        $paginator = new Paginator($totalItems, 1);
+        $paginator = new Paginator($totalItems, 1, 1, '/product/category');
 
-        $paginator->setUrl('/product/category');
         $this->assertEquals(false, $paginator->getPreviousPageUrl());
 
         $paginator->setCurrentPage(2);

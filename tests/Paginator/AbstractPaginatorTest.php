@@ -210,8 +210,7 @@ class AbstractPaginatorTest extends TestCase
     public function testGetPages()
     {
         $totalItems = 7;
-        $paginator = new Paginator($totalItems, 1);
-        $paginator->setUrl('https://www.example.com');
+        $paginator = new Paginator($totalItems, 1, 1, 'https://www.example.com');
 
         $pages = $paginator->getPages();
         $this->assertEquals(7, count($pages));

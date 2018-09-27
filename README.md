@@ -22,6 +22,33 @@ composer require paginator/paginator
 $totalItems = 3;
 $perPage = 1;
 $currentPage = 1;
+$url = 'https://example.com';
 
+$paginator = new Paginator($totalItems, $perPage, $currentPage, $url);
 
+if ($paginator->hasPages() === true) {
+    if ($paginator->getPreviousPage()) {
+        $previousPageUrl = $paginator->getPreviousPageUrl();
+
+        echo "<li><a href='{$previousPageUrl}'>Previous</a></li>";
+    }
+
+    foreach ($paginator->getPages() as $page) {
+        if (!$page instanceof Page) {
+            continue;
+        }
+
+        $pageNumber = $page->getNumber();
+        $pageUrl = $page->getUrl();
+        $cssClass = $page->isCurrent() === true ? 'active' : '';
+
+        echo "<li class='{$cssClass}'><a href='{$pageUrl}'>{$pageNumber}</a></li>";
+    }
+
+    if ($paginator->getNextPage()) {
+        $nextPageUrl = $paginator->getNextPageUrl();
+
+        echo "<li><a href='{$nextPageUrl}'>Next</a></li>";
+    }
+}
 ```
