@@ -232,7 +232,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals([
             [
                 'start'  => 9,
-                'finish' => 17,
+                'finish' => 18,
             ],
         ], $paginator->getHiddenRanges());
 
@@ -242,7 +242,7 @@ class PaginatorTest extends TestCase
         $this->assertEquals([
             [
                 'start'  => 9,
-                'finish' => 17,
+                'finish' => 18,
             ],
         ], $paginator->getHiddenRanges());
 
@@ -250,11 +250,11 @@ class PaginatorTest extends TestCase
         $this->assertEquals([
             [
                 'start'  => 3,
-                'finish' => 4,
+                'finish' => 3,
             ],
             [
-                'start'  => 10,
-                'finish' => 17,
+                'start'  => 11,
+                'finish' => 18,
             ],
         ], $paginator->getHiddenRanges());
 
@@ -262,11 +262,11 @@ class PaginatorTest extends TestCase
         $this->assertEquals([
             [
                 'start'  => 3,
-                'finish' => 5,
+                'finish' => 4,
             ],
             [
-                'start'  => 11,
-                'finish' => 17,
+                'start'  => 12,
+                'finish' => 18,
             ],
         ], $paginator->getHiddenRanges());
 
@@ -274,11 +274,11 @@ class PaginatorTest extends TestCase
         $this->assertEquals([
             [
                 'start'  => 3,
-                'finish' => 11,
+                'finish' => 10,
             ],
             [
-                'start'  => 17,
-                'finish' => 17,
+                'start'  => 18,
+                'finish' => 18,
             ],
         ], $paginator->getHiddenRanges());
 

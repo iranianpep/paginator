@@ -266,7 +266,7 @@ class Paginator extends AbstractPaginator
 
         if (!$this->getCurrentPage() instanceof Page || $this->isSliderCloseToBeginning() === true) {
             return [
-                ['start'  => (2 * $this->getOnEachSide()) + 3, 'finish' => $this->calculateNumberOfPages() - 3],
+                ['start'  => (2 * $this->getOnEachSide()) + 3, 'finish' => $this->calculateNumberOfPages() - 2],
             ];
         } elseif ($this->isSliderCloseToEnding() === true) {
             return [
@@ -277,11 +277,11 @@ class Paginator extends AbstractPaginator
         return [
             [
                 'start'  => 3,
-                'finish' => $this->getCurrentPage()->getNumber() - $this->getOnEachSide(),
+                'finish' => $this->getCurrentPage()->getNumber() - ($this->getOnEachSide() + 1),
             ],
             [
-                'start'  => $this->getCurrentPage()->getNumber() + $this->getOnEachSide(),
-                'finish' => $this->calculateNumberOfPages() - 3,
+                'start'  => $this->getCurrentPage()->getNumber() + ($this->getOnEachSide() + 1),
+                'finish' => $this->calculateNumberOfPages() - 2,
             ],
         ];
     }
