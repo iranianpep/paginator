@@ -233,9 +233,9 @@ class PaginatorTest extends TestCase
         // number of page is 20
         $this->assertEquals([
             [
-                'start' => 9,
-                'finish' => 17
-            ]
+                'start'  => 9,
+                'finish' => 17,
+            ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(6);
@@ -243,92 +243,92 @@ class PaginatorTest extends TestCase
         // still the hidden range should be the same
         $this->assertEquals([
             [
-                'start' => 9,
-                'finish' => 17
-            ]
+                'start'  => 9,
+                'finish' => 17,
+            ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(7);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 4
+                'start'  => 3,
+                'finish' => 4,
             ],
             [
-                'start' => 10,
-                'finish' => 17
-            ]
+                'start'  => 10,
+                'finish' => 17,
+            ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(8);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 5
+                'start'  => 3,
+                'finish' => 5,
             ],
             [
-                'start' => 11,
-                'finish' => 17
-            ]
+                'start'  => 11,
+                'finish' => 17,
+            ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(14);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
             [
-                'start' => 17,
-                'finish' => 17
-            ]
+                'start'  => 17,
+                'finish' => 17,
+            ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(15);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(16);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(17);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(18);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(19);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
 
         $paginator->setCurrentPage(20);
         $this->assertEquals([
             [
-                'start' => 3,
-                'finish' => 11
+                'start'  => 3,
+                'finish' => 11,
             ],
         ], $paginator->getHiddenRanges());
     }
