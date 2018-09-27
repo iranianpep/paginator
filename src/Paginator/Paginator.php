@@ -22,6 +22,16 @@ class Paginator extends AbstractPaginator
      */
     private $onEachSide;
 
+    public function __construct(
+        $totalItems,
+        $perPage = self::DEFAULT_PER_PAGE,
+        $currentPageNumber = 1,
+        $url = ''
+    ) {
+        parent::__construct($totalItems, $perPage, $currentPageNumber);
+        $this->setUrl($url);
+    }
+
     /**
      * @throws PaginatorException
      *
@@ -240,18 +250,18 @@ class Paginator extends AbstractPaginator
                 'start' => 2,
                 'finish' => $this->calculateNumberOfPages() - ((2 * $onSides) + 2)
             ];
-        } else {
-            return [
-                [
-                    'start' => 2,
-                    'finish' => $this->getCurrentPage()->getNumber() - $onSides
-                ],
-                [
-                    'start' => $this->getCurrentPage()->getNumber() + $onSides,
-                    'finish' => $this->calculateNumberOfPages() - 2
-                ]
-            ];
         }
+
+        return [
+            [
+                'start' => 2,
+                'finish' => $this->getCurrentPage()->getNumber() - $onSides
+            ],
+            [
+                'start' => $this->getCurrentPage()->getNumber() + $onSides,
+                'finish' => $this->calculateNumberOfPages() - 2
+            ]
+        ];
     }
 
     /**
