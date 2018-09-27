@@ -260,35 +260,27 @@ class Paginator extends AbstractPaginator
      */
     public function getHiddenRanges(): array
     {
-        $onEachSide = $this->getOnEachSide();
-
-        if ($this->calculateNumberOfPages() < ($onEachSide * 2) + 6) {
+        if ($this->calculateNumberOfPages() < ($this->getOnEachSide() * 2) + 6) {
             return [];
         }
 
         if (!$this->getCurrentPage() instanceof Page || $this->isSliderCloseToBeginning() === true) {
             return [
-                [
-                    'start'  => (2 * $onEachSide) + 3,
-                    'finish' => $this->calculateNumberOfPages() - 3,
-                ],
+                ['start'  => (2 * $this->getOnEachSide()) + 3, 'finish' => $this->calculateNumberOfPages() - 3]
             ];
         } elseif ($this->isSliderCloseToEnding() === true) {
             return [
-                [
-                    'start'  => 3,
-                    'finish' => $this->calculateNumberOfPages() - ((2 * $onEachSide) + 3),
-                ],
+                ['start'  => 3, 'finish' => $this->calculateNumberOfPages() - ((2 * $this->getOnEachSide()) + 3)]
             ];
         }
 
         return [
             [
                 'start'  => 3,
-                'finish' => $this->getCurrentPage()->getNumber() - $onEachSide,
+                'finish' => $this->getCurrentPage()->getNumber() - $this->getOnEachSide(),
             ],
             [
-                'start'  => $this->getCurrentPage()->getNumber() + $onEachSide,
+                'start'  => $this->getCurrentPage()->getNumber() + $this->getOnEachSide(),
                 'finish' => $this->calculateNumberOfPages() - 3,
             ],
         ];
