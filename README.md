@@ -1,5 +1,5 @@
 # Paginator
-A simple yet powerful PHP pagination engine
+A powerful PHP pagination engine to take care of pagination hassles
 
 [![Build Status](https://travis-ci.org/iranianpep/paginator.svg?branch=master)](https://travis-ci.org/iranianpep/paginator)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9f8b2dd15bf3a8f48103/maintainability)](https://codeclimate.com/github/iranianpep/paginator/maintainability)
@@ -18,6 +18,7 @@ composer require paginator/paginator
 ```
 
 ## Example
+The simplest way to use Paginator is as follow:
 ```
 $totalItems = 3;
 $perPage = 1;
@@ -51,4 +52,66 @@ if ($paginator->hasPages() === true) {
         echo "<li><a href='{$nextPageUrl}'>Next</a></li>";
     }
 }
+```
+
+If you are using any MVC framework like Laravel instantiate an object from Paginator class in the controller and pass it to the view:
+
+#### Controller
+```
+public function index(Request $request)
+{
+    $totalProductsNumber = 10;
+    $perPage = 10;
+    $currentPageNumber = (int) $request->get('page') > 0 ? $request->get('page') : 1;
+    $url = $request->fullUrl();
+    
+    $paginator = new Paginator($totalProductsNumber, $perPage, $currentPageNumber, $url);
+
+    // you should use the offset in your database query to get a slice of data
+    $offset = $paginator->calculateDatabaseOffset($currentPageNumber);
+
+    return view('view.index', [
+        'paginator' => $paginator
+    ]);
+}
+```
+
+#### View (Laravel Blade)
+```
+@if ($paginator->hasPages())
+    <ul class="pagination">
+        @if ($paginator->isOnFirstPage() === true)
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        @else
+            <li class="page-item"><a class="page-link" href="{{ $paginator->getPreviousPageUrl() }}" rel="prev" title="Previous">&laquo;</a></li>
+        @endif
+
+        @php
+            $hiddenRanges = $paginator->getHiddenRanges();
+        @endphp
+
+        @foreach ($paginator->getPages() as $page)
+            {{-- "Three Dots" Separator --}}
+            @if ((isset($hiddenRanges[0]) && $page->getNumber() === $hiddenRanges[0]['start']) ||
+            (isset($hiddenRanges[1]) && $page->getNumber() === $hiddenRanges[1]['start']))
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            @elseif((isset($hiddenRanges[0]) && $page->getNumber() > $hiddenRanges[0]['start'] && $page->getNumber() <= $hiddenRanges[0]['finish']) ||
+            (isset($hiddenRanges[1]) && $page->getNumber() > $hiddenRanges[1]['start'] && $page->getNumber() <= $hiddenRanges[1]['finish']))
+                @continue
+            @else
+                @if ($page->isCurrent())
+                    <li class="page-item active"><span class="page-link">{{ $page->getNumber() }}</span></li>
+                @else
+                    <li class="page-item"><a class="page-link" href="{{ $page->getUrl() }}" title="Page">{{ $page->getNumber() }}</a></li>
+                @endif
+            @endif
+        @endforeach
+
+        @if ($paginator->isOnLastPage() === false)
+            <li class="page-item"><a class="page-link" href="{{ $paginator->getNextPageUrl() }}" rel="next" title="Next">&raquo;</a></li>
+        @else
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        @endif
+    </ul>
+@endif
 ```

@@ -33,12 +33,18 @@ abstract class AbstractPaginator implements PaginatorInterface
         $perPage = self::DEFAULT_PER_PAGE,
         $currentPageNumber = 1
     ) {
+        // do not use setter here because of updateCurrentPage()
         $this->totalItems = (int) $totalItems;
         $this->perPage = (int) $perPage;
 
         $this->setCurrentPage($currentPageNumber);
     }
 
+    /**
+     * @param $pageNumber
+     *
+     * @return mixed
+     */
     abstract protected function createPageObject($pageNumber);
 
     /**
@@ -79,6 +85,9 @@ abstract class AbstractPaginator implements PaginatorInterface
         $this->updateCurrentPage();
     }
 
+    /**
+     * Update current page
+     */
     private function updateCurrentPage(): void
     {
         $pageNumber = 1;
@@ -92,7 +101,7 @@ abstract class AbstractPaginator implements PaginatorInterface
     /**
      * @return Page
      */
-    public function getCurrentPage()
+    public function getCurrentPage(): ?Page
     {
         return $this->currentPage;
     }
@@ -103,7 +112,7 @@ abstract class AbstractPaginator implements PaginatorInterface
     public function setCurrentPage($pageNumber): void
     {
         // by default set the current page to false. It might be overwritten later this function
-        $this->currentPage = false;
+        $this->currentPage = null;
 
         $pageNumber = (int) $pageNumber;
         if ($this->calculateNumberOfPages() > 0 &&

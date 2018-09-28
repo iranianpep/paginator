@@ -4,7 +4,16 @@ namespace Paginator;
 
 class Paginator extends AbstractPaginator
 {
+    /**
+     * Default value for query string key to specify the current page
+     *
+     * https://example.com?page=1
+     */
     const DEFAULT_PAGE_NAME = 'page';
+
+    /**
+     * Default value for the number of visible pages around the chosen page in case there are a lot of pages
+     */
     const DEFAULT_ON_EACH_SIDE = 3;
 
     /**
@@ -41,30 +50,28 @@ class Paginator extends AbstractPaginator
     }
 
     /**
+     * @return null|Page
      * @throws PaginatorException
-     *
-     * @return bool|Page
      */
-    public function getNextPage()
+    public function getNextPage(): ?Page
     {
         $currentPage = $this->getCurrentPage();
         if ($this->isOnLastPage() === true || !$currentPage instanceof Page) {
-            return false;
+            return null;
         }
 
         return $this->createPageObject($currentPage->getNumber() + 1);
     }
 
     /**
+     * @return null|Page
      * @throws PaginatorException
-     *
-     * @return bool|Page
      */
-    public function getPreviousPage()
+    public function getPreviousPage(): ?Page
     {
         $currentPage = $this->getCurrentPage();
         if ($this->isOnFirstPage() === true || !$currentPage instanceof Page) {
-            return false;
+            return null;
         }
 
         return $this->createPageObject($currentPage->getNumber() - 1);
@@ -97,32 +104,30 @@ class Paginator extends AbstractPaginator
     }
 
     /**
+     * @return null|string
      * @throws PaginatorException
-     *
-     * @return bool|string
      */
-    public function getNextPageUrl()
+    public function getNextPageUrl(): ?string
     {
         $nextPage = $this->getNextPage();
 
         if (!$nextPage instanceof Page) {
-            return false;
+            return null;
         }
 
         return $this->appendQueryStringToURL($this->getUrl(), [$this->getPageName() => $nextPage->getNumber()]);
     }
 
     /**
+     * @return null|string
      * @throws PaginatorException
-     *
-     * @return bool|string
      */
-    public function getPreviousPageUrl()
+    public function getPreviousPageUrl(): ?string
     {
         $previousPage = $this->getPreviousPage();
 
         if (!$previousPage instanceof Page) {
-            return false;
+            return null;
         }
 
         return $this->appendQueryStringToURL($this->getUrl(), [$this->getPageName() => $previousPage->getNumber()]);
@@ -193,7 +198,7 @@ class Paginator extends AbstractPaginator
      *
      * @return Page
      */
-    protected function createPageObject($number)
+    protected function createPageObject($number): Page
     {
         $page = new Page($number);
         $number === 1 ? $page->setIsFirst(true) : $page->setIsFirst(false);
@@ -289,7 +294,7 @@ class Paginator extends AbstractPaginator
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }

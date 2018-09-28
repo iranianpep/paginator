@@ -4,11 +4,34 @@ namespace Paginator;
 
 class Page
 {
+    /**
+     * @var int
+     */
     private $number;
+
+    /**
+     * @var bool
+     */
     private $isFirst;
+
+    /**
+     * @var bool
+     */
     private $isLast;
+
+    /**
+     * @var bool
+     */
     private $isCurrent;
+
+    /**
+     * @var bool
+     */
     private $isHidden;
+
+    /**
+     * @var string
+     */
     private $url;
 
     /**
@@ -26,7 +49,7 @@ class Page
     /**
      * @return int
      */
-    public function getNumber()
+    public function getNumber(): int
     {
         return $this->number;
     }
@@ -52,11 +75,7 @@ class Page
      */
     private function isPageNumberValid($number): bool
     {
-        if ($number > 0) {
-            return true;
-        }
-
-        return false;
+        return $number > 0;
     }
 
     /**
@@ -124,9 +143,9 @@ class Page
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
