@@ -5,14 +5,14 @@ namespace Paginator;
 class Paginator extends AbstractPaginator
 {
     /**
-     * Default value for query string key to specify the current page
+     * Default value for query string key to specify the current page.
      *
      * https://example.com?page=1
      */
     const DEFAULT_PAGE_NAME = 'page';
 
     /**
-     * Default value for the number of visible pages around the chosen page in case there are a lot of pages
+     * Default value for the number of visible pages around the chosen page in case there are a lot of pages.
      */
     const DEFAULT_ON_EACH_SIDE = 3;
 
@@ -50,8 +50,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return null|Page
      * @throws PaginatorException
+     *
+     * @return null|Page
      */
     public function getNextPage(): ?Page
     {
@@ -64,8 +65,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return null|Page
      * @throws PaginatorException
+     *
+     * @return null|Page
      */
     public function getPreviousPage(): ?Page
     {
@@ -104,8 +106,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return null|string
      * @throws PaginatorException
+     *
+     * @return null|string
      */
     public function getNextPageUrl(): ?string
     {
@@ -119,8 +122,9 @@ class Paginator extends AbstractPaginator
     }
 
     /**
-     * @return null|string
      * @throws PaginatorException
+     *
+     * @return null|string
      */
     public function getPreviousPageUrl(): ?string
     {
