@@ -86,7 +86,7 @@ abstract class AbstractPaginator implements PaginatorInterface
     }
 
     /**
-     * Update current page
+     * Update current page.
      */
     private function updateCurrentPage(): void
     {
